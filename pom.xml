@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+  	<groupId>com.hbl</groupId>
+  	<artifactId>solr_createIndex</artifactId>
+  	<version>1.0.0</version>
+  	<dependencies>
+  		<!-- solr -->
+		<dependency>
+		    <groupId>org.apache.solr</groupId>
+		    <artifactId>solr-core</artifactId>
+		    <version>5.5.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.solr</groupId>
+		    <artifactId>solr-solrj</artifactId>
+		    <version>5.5.0</version>
+		</dependency>
+		<!-- mysql connector -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.26</version>
+		</dependency>
+		<!-- quartz -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.2.1</version>
+		</dependency>
+		<!-- others -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.7</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		    <version>1.7.7</version>
+		</dependency>
+  		<dependency>
+    		<groupId>jdk.tools</groupId>
+    		<artifactId>jdk.tools</artifactId>
+    		<version>1.7.0_05</version>
+    		<scope>system</scope>
+    		<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+  	</dependencies>
+  	<build>
+  		<finalName>solrIndex</finalName>
+  		<plugins>
+  			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+  			<plugin>  
+	            <groupId>org.apache.maven.plugins</groupId>  
+	            <artifactId>maven-jar-plugin</artifactId>  
+	            <version>2.4</version>  
+            	<!-- The configuration of the plugin -->  
+            	<configuration>  
+                	<!-- Configuration of the archiver -->  
+                	<archive>  
+                    	<!-- 生成的jar中，不要包含pom.xml和pom.properties这两个文件 -->  
+                    	<addMavenDescriptor>false</addMavenDescriptor>  
+                    	<!-- Manifest specific configuration -->  
+                    	<manifest>  
+                        	<!-- 是否要把第三方jar放到manifest的classpath中 -->  
+                        	<addClasspath>true</addClasspath>  
+                        	<!-- 生成的manifest中classpath的前缀，因为要把第三方jar放到lib目录下，所以classpath的前缀是lib/ -->  
+                        	<classpathPrefix>lib/</classpathPrefix>  
+                        <!-- 应用的main class -->  
+                        	<mainClass>com.hbl.solr.process.main.StartUp</mainClass>  
+                    	</manifest>  
+                	</archive>  
+                	<!-- 过滤掉不希望包含在jar中的文件 -->  
+                	<excludes>  
+                    	<exclude>${project.basedir}/xml/*</exclude>  
+                	</excludes>  
+            	</configuration>  
+        	</plugin>  
+        	<!-- The configuration of maven-assembly-plugin -->  
+        	<plugin>  
+            	<groupId>org.apache.maven.plugins</groupId>  
+            	<artifactId>maven-assembly-plugin</artifactId>  
+            	<version>2.4</version>  
+            	<!-- The configuration of the plugin -->  
+            	<configuration>  
+                	<!-- Specifies the configuration file of the assembly plugin -->  
+               	 	<descriptors>  
+                    	<descriptor>src/main/assembly/assembly.xml</descriptor>  
+                	</descriptors>  
+            	</configuration>  
+            	<executions>  
+                	<execution>  
+                    	<id>make-assembly</id>  
+                    	<phase>package</phase>  
+                    	<goals>  
+                        	<goal>single</goal>  
+                    	</goals>  
+                	</execution>  
+            	</executions>  
+        	</plugin>  
+        </plugins>
+  	</build>
+</project>
